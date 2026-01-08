@@ -92,6 +92,14 @@ set -U fifc_show_hidden true
 
 When enabled, hidden files and directories (starting with `.`) will always be shown in completions, without needing to type `.` first.
 
+**Case-insensitive completion matching:**
+
+```fish
+set -U fifc_case_insensitive true
+```
+
+When enabled, fzf will perform case-insensitive matching for all completions. This is particularly useful for `cd` and file path completions where you don't want to worry about exact case matching.
+
 **Preserve custom `fifc_fd_opts`:**
 
 The fork properly appends to user-defined `fifc_fd_opts` instead of replacing them, allowing you to set options like:
