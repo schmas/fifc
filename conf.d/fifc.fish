@@ -11,9 +11,13 @@ if status is-interactive
     set -qU fifc_open_keybinding
     or set -U fifc_open_keybinding ctrl-o
 
+    set -qU fifc_git_branch_keybinding
+    or set -U fifc_git_branch_keybinding \e\cB
+
     for mode in default insert
         bind --mode $mode \t _fifc
         bind --mode $mode $fifc_keybinding _fifc
+        bind --mode $mode $fifc_git_branch_keybinding _fifc_git_branch_selector
     end
 
     # Set sources rules

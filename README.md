@@ -27,6 +27,7 @@ fifc brings fzf powers on top of fish completion engine and allows customizable 
 - Recursively search for files and folders when completing paths (using [fd](https://github.com/sharkdp/fd))
 - Preview directory content
 - Preview process trees (using [procs](https://github.com/dalance/procs))
+- Interactive git branch selector with preview (`ctrl-alt-b`)
 - Modular: easily add your own completion rules
 - Properly handle paths with spaces (needs fish 3.4+)
 
@@ -99,6 +100,58 @@ The fork properly appends to user-defined `fifc_fd_opts` instead of replacing th
 ```fish
 set -U fifc_fd_opts --max-depth 3 --exclude .git --exclude node_modules
 ```
+
+**Git Branch Selector:**
+
+Press `ctrl-alt-b` anywhere in your command line to open an interactive git branch selector. This works in any git repository and allows you to quickly insert branch names into your commands.
+
+```fish
+# Example usage:
+git checkout <ctrl-alt-b>  # Select a branch to checkout
+git merge <ctrl-alt-b>     # Select a branch to merge
+git diff <ctrl-alt-b>      # Select a branch to diff against
+```
+
+The branch selector shows:
+- All local and remote branches
+- Preview with last commit info, author, and date
+- Comparison with current branch (commits ahead/behind)
+- Press `ctrl-o` in the selector for detailed branch information
+
+Customize the keybinding:
+
+```fish
+set -U fifc_git_branch_keybinding \e\cG  # Change to ctrl-alt-g
+```
+
+## ⌨️ Keybindings
+
+fifc provides several keybindings to enhance your workflow:
+
+| Keybinding | Default | Description | Customize with |
+|------------|---------|-------------|----------------|
+| **Completion trigger** | `tab` | Trigger fzf completion for paths, options, processes, etc. | `fifc_keybinding` |
+| **Open action** | `ctrl-o` | Open detailed view of selected item (file, directory, command, etc.) | `fifc_open_keybinding` |
+| **Git branch selector** | `ctrl-alt-b` | Open interactive git branch selector (insert branch name at cursor) | `fifc_git_branch_keybinding` |
+
+### Customization examples:
+
+```fish
+# Change completion trigger to ctrl-space
+set -U fifc_keybinding \c@
+
+# Change open action to ctrl-e
+set -U fifc_open_keybinding ctrl-e
+
+# Change git branch selector to ctrl-alt-g
+set -U fifc_git_branch_keybinding \e\cG
+```
+
+**Note:** For key sequence notation:
+- `\t` = Tab
+- `\cx` = Ctrl+x
+- `\e\cx` = Alt+Ctrl+x (or Ctrl+Alt+x)
+- `ctrl-o` = Ctrl+o (alternative notation)
 
 ## 🛠️ Write your own rules
 
