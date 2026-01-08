@@ -4,9 +4,11 @@
 
 _fish fzf completions_
 
-[![CI](https://github.com/gazorby/fifc/actions/workflows/ci.yml/badge.svg)](https://github.com/gazorby/fifc/actions/workflows/ci.yml)
+[![CI](https://github.com/schmas/fifc/actions/workflows/ci.yml/badge.svg)](https://github.com/schmas/fifc/actions/workflows/ci.yml)
 
 fifc brings fzf powers on top of fish completion engine and allows customizable completion rules
+
+**Fork of [gazorby/fifc](https://github.com/gazorby/fifc) with additional features and customizations**
 
 </div>
 
@@ -31,7 +33,7 @@ fifc brings fzf powers on top of fish completion engine and allows customizable 
 ## 🚀 Install
 
 ```fish
-fisher install gazorby/fifc
+fisher install schmas/fifc
 ```
 
 ## 🔧 Usage
@@ -78,9 +80,29 @@ Show hidden file by default:
 
 ⚠️ Don't use quotes in variables, set them as a list: `set -U fifc_exa_opts --icons --tree`
 
+### 🌟 Fork-specific features
+
+This fork adds the following customizations:
+
+**Show hidden files/directories always:**
+
+```fish
+set -U fifc_show_hidden true
+```
+
+When enabled, hidden files and directories (starting with `.`) will always be shown in completions, without needing to type `.` first.
+
+**Preserve custom `fifc_fd_opts`:**
+
+The fork properly appends to user-defined `fifc_fd_opts` instead of replacing them, allowing you to set options like:
+
+```fish
+set -U fifc_fd_opts --max-depth 3 --exclude .git --exclude node_modules
+```
+
 ## 🛠️ Write your own rules
 
-Custom rules can easily be added using the `fifc` command. Actually, all builtin rules are added this way: see [conf.d/fifc.fish](https://github.com/gazorby/fifc/blob/52ff966511ea97ed7be79db469fe178784e22fd8/conf.d/fifc.fish)
+Custom rules can easily be added using the `fifc` command. Actually, all builtin rules are added this way: see [conf.d/fifc.fish](https://github.com/schmas/fifc/blob/main/conf.d/fifc.fish)
 
 See `fifc -h` for more details.
 
@@ -202,4 +224,8 @@ Thanks [PatrickF1](https://github.com/PatrickF1) (and collaborators!), for the g
 
 ## 📝 License
 
-[MIT](https://github.com/gazorby/fifc/blob/87c965fe42a5b2ddb6e0ea84871ca56651db1cb2/LICENSE)
+[MIT](https://github.com/schmas/fifc/blob/main/LICENSE)
+
+## 🔗 Original Project
+
+This is a fork of [gazorby/fifc](https://github.com/gazorby/fifc). All credit for the original implementation goes to the original author and contributors.
