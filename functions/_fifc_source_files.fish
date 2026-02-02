@@ -6,8 +6,9 @@ function _fifc_source_files -d "Return a command to recursively find files"
         set -e fifc_query
     end
 
-    # Sort function: hidden files/folders last
-    set -l sort_cmd "awk '{if (\$0 ~ /^\\./ || \$0 ~ /\\/\\./) print \"1\" \$0; else print \"0\" \$0}' | sort -V | cut -c2-"
+    # Sort function: by depth (first-level first), then hidden files last within each depth
+    # Format: depth (2 digits) + hidden flag (0/1) + path, then sort and strip prefix
+    set -l sort_cmd "awk '{d=gsub(/\\//,\"/\"); h=(\$0 ~ /^\\./ || \$0 ~ /\\/\\./) ? 1 : 0; printf \"%02d%d%s\\n\", d, h, \$0}' | sort -V | cut -c4-"
 
     if type -q fd
         if _fifc_test_version (fd --version) -ge "8.3.0"

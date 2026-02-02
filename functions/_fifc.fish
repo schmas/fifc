@@ -33,6 +33,12 @@ function _fifc
         set case_flag -i
     end
 
+    # Multi-select keybinding (default: ctrl-space)
+    set -l multi_key ctrl-space
+    if set -q fifc_multi_keybinding; and test -n "$fifc_multi_keybinding"
+        set multi_key $fifc_multi_keybinding
+    end
+
     set -l fzf_cmd "
         _fifc_launched_by_fzf=1 SHELL=fish fzf \
             -d \t \
@@ -43,6 +49,9 @@ function _fifc
             --ansi \
             --tabstop=4 \
             --multi \
+            --bind='$multi_key:toggle+down' \
+            --bind='tab:down' \
+            --bind='shift-tab:up' \
             --reverse \
             --header '$header' \
             --preview '_fifc_action preview {} {q}' \
