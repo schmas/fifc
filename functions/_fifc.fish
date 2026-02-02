@@ -49,7 +49,7 @@ function _fifc
             --ansi \
             --tabstop=4 \
             --multi \
-            --bind='$multi_key:toggle+down' \
+            --bind='$multi_key:toggle' \
             --bind='tab:down' \
             --bind='shift-tab:up' \
             --reverse \
