@@ -7,9 +7,9 @@ function _fifc_source_files -d "Return a command to recursively find files"
     end
 
     # Sort function: by depth (first-level first), then hidden files last within each depth
-    # Uses -F/ to split by path separator, NF gives segment count (more reliable than gsub)
+    # Strip ANSI codes for analysis but preserve them in output
     # Format: depth (3 digits) + hidden flag (0/1) + path, then numeric sort and strip prefix
-    set -l sort_cmd "awk -F/ '{d=NF; h=0; for(i=1;i<=NF;i++) if(substr(\$i,1,1)==\".\") h=1; printf \"%03d%d%s\\n\", d, h, \$0}' | sort -n | cut -c5-"
+    set -l sort_cmd "awk '{line=\$0; gsub(/\\033\\[[0-9;]*m/,\"\",line); d=split(line,a,\"/\"); h=0; for(i=1;i<=d;i++) if(substr(a[i],1,1)==\".\") h=1; printf \"%03d%d%s\\n\", d, h, \$0}' | sort -n | cut -c5-"
 
     if type -q fd
         if _fifc_test_version (fd --version) -ge "8.3.0"
