@@ -25,23 +25,23 @@ function _fifc_source_files -d "Return a command to recursively find files"
         end
 
         if test "$path" = {$PWD}/
-            echo "fd . $fifc_fd_opts --color=always $hidden_flag $fd_custom_opts | $sort_cmd"
+            echo "fd . $fifc_fd_opts --max-depth 1 --color=always $hidden_flag $fd_custom_opts | $sort_cmd"
         else if test "$path" = "."
-            echo "fd . $fifc_fd_opts --color=always $hidden_flag $fd_custom_opts | $sort_cmd"
+            echo "fd . $fifc_fd_opts --max-depth 1 --color=always $hidden_flag $fd_custom_opts | $sort_cmd"
         else if test -n "$hidden"
-            echo "fd . $fifc_fd_opts --color=always $hidden_flag -- $path | $sort_cmd"
+            echo "fd . $fifc_fd_opts --max-depth 1 --color=always $hidden_flag -- $path | $sort_cmd"
         else
-            echo "fd . $fifc_fd_opts --color=always $hidden_flag -- $path | $sort_cmd"
+            echo "fd . $fifc_fd_opts --max-depth 1 --color=always $hidden_flag -- $path | $sort_cmd"
         end
     else if test -n "$hidden"
         # Use sed to strip cwd prefix
-        echo "find . $path $fifc_find_opts ! -path . -print 2>/dev/null | sed 's|^\./||' | $sort_cmd"
+        echo "find . $path -maxdepth 1 $fifc_find_opts ! -path . -print 2>/dev/null | sed 's|^\./||' | $sort_cmd"
     else
         # Exclude hidden directories unless fifc_show_hidden is enabled
         if set -q fifc_show_hidden; and test "$fifc_show_hidden" = true
-            echo "find . $path $fifc_find_opts ! -path . -print 2>/dev/null | sed 's|^\./||' | $sort_cmd"
+            echo "find . $path -maxdepth 1 $fifc_find_opts ! -path . -print 2>/dev/null | sed 's|^\./||' | $sort_cmd"
         else
-            echo "find . $path $fifc_find_opts ! -path . ! -path '*/.*' -print 2>/dev/null | sed 's|^\./||'"
+            echo "find . $path -maxdepth 1 $fifc_find_opts ! -path . ! -path '*/.*' -print 2>/dev/null | sed 's|^\./||'"
         end
     end
 end

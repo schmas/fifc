@@ -16,15 +16,15 @@ if status is-interactive
         bind --mode $mode $fifc_keybinding _fifc
     end
 
-    # Set sources rules
+    # Set sources rules with depth control (default: depth 1, alt-↓/↑ to change)
     fifc \
         -n 'test "$fifc_group" = "directories"' \
         -s _fifc_source_directories \
-        -f '--no-sort --tiebreak=length,index'
+        -f "--no-sort --tiebreak=length,index --prompt='d:1> ' --header='alt-↓ deeper · alt-↑ shallower' --bind='alt-down:transform(_fifc_depth_transform +1 d)' --bind='alt-up:transform(_fifc_depth_transform -1 d)'"
     fifc \
         -n 'test "$fifc_group" = "files"' \
         -s _fifc_source_files \
-        -f '--no-sort --tiebreak=length,index'
+        -f "--no-sort --tiebreak=length,index --prompt='d:1> ' --header='alt-↓ deeper · alt-↑ shallower' --bind='alt-down:transform(_fifc_depth_transform +1)' --bind='alt-up:transform(_fifc_depth_transform -1)'"
     fifc \
         -n 'test "$fifc_group" = processes' \
         -s 'ps -ax -o pid=,command='
