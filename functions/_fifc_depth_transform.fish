@@ -11,8 +11,13 @@ function _fifc_depth_transform -d "Emit fzf actions to change depth level"
         end
     end
 
-    # Compute new depth (minimum 1)
-    set -l new_depth (math "max(1, $current_depth + $delta)")
+    # Compute new depth: plain number = absolute, +N/-N = relative (minimum 1)
+    set -l new_depth
+    if string match --quiet --regex '^[0-9]+$' -- $delta
+        set new_depth (math "max(1, $delta)")
+    else
+        set new_depth (math "max(1, $current_depth + $delta)")
+    end
 
     # Emit fzf actions: update prompt + reload with new depth
     if test -n "$type"

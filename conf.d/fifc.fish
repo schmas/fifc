@@ -16,15 +16,38 @@ if status is-interactive
         bind --mode $mode $fifc_keybinding _fifc
     end
 
-    # Set sources rules with depth control (default: depth 1, alt-↓/↑ to change)
+    # Build depth-control fzf options (default: depth 1)
+    # Bindings: ctrl-j/k and alt-↓/↑ step depth, alt-1…9 jump directly
+    set -l _base "--no-sort --tiebreak=length,index --prompt='d:1> '"
+    set -l _base "$_base --header='ctrl-j/k · alt-↓/↑ · alt-1…9 depth'"
+
+    set -l _dir "$_base"
+    set -l _dir "$_dir --bind='alt-down:transform(_fifc_depth_transform +1 d)'"
+    set -l _dir "$_dir --bind='alt-up:transform(_fifc_depth_transform -1 d)'"
+    set -l _dir "$_dir --bind='ctrl-j:transform(_fifc_depth_transform +1 d)'"
+    set -l _dir "$_dir --bind='ctrl-k:transform(_fifc_depth_transform -1 d)'"
+    for _n in 1 2 3 4 5 6 7 8 9
+        set -l _dir "$_dir --bind='alt-$_n:transform(_fifc_depth_transform $_n d)'"
+    end
+
+    set -l _file "$_base"
+    set -l _file "$_file --bind='alt-down:transform(_fifc_depth_transform +1)'"
+    set -l _file "$_file --bind='alt-up:transform(_fifc_depth_transform -1)'"
+    set -l _file "$_file --bind='ctrl-j:transform(_fifc_depth_transform +1)'"
+    set -l _file "$_file --bind='ctrl-k:transform(_fifc_depth_transform -1)'"
+    for _n in 1 2 3 4 5 6 7 8 9
+        set -l _file "$_file --bind='alt-$_n:transform(_fifc_depth_transform $_n)'"
+    end
+
+    # Set source rules
     fifc \
         -n 'test "$fifc_group" = "directories"' \
         -s _fifc_source_directories \
-        -f "--no-sort --tiebreak=length,index --prompt='d:1> ' --header='alt-↓ deeper · alt-↑ shallower' --bind='alt-down:transform(_fifc_depth_transform +1 d)' --bind='alt-up:transform(_fifc_depth_transform -1 d)'"
+        -f $_dir
     fifc \
         -n 'test "$fifc_group" = "files"' \
         -s _fifc_source_files \
-        -f "--no-sort --tiebreak=length,index --prompt='d:1> ' --header='alt-↓ deeper · alt-↑ shallower' --bind='alt-down:transform(_fifc_depth_transform +1)' --bind='alt-up:transform(_fifc_depth_transform -1)'"
+        -f $_file
     fifc \
         -n 'test "$fifc_group" = processes' \
         -s 'ps -ax -o pid=,command='
