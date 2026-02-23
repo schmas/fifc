@@ -48,5 +48,5 @@ function _fifc_reload_depth -d "Reload file/directory listing at specific depth"
             find . $path -maxdepth $depth $fifc_find_opts $find_type_opt \
                 ! -path . ! -path '*/.*' -print 2>/dev/null | sed 's|^\./||'
         end
-    end | awk '{line=$0; gsub(/\033\[[0-9;]*m/,"",line); d=split(line,a,"/"); h=0; for(i=1;i<=d;i++) if(substr(a[i],1,1)==".") h=1; printf "%03d%d%s\n", d, h, $0}' | sort -n | cut -c5-
+    end
 end

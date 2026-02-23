@@ -18,7 +18,7 @@ if status is-interactive
 
     # Build depth-control fzf options (default: depth 1)
     # Bindings: ctrl-j/k and alt-↓/↑ step depth, alt-1…9 jump directly
-    set -l _base "--no-sort --tiebreak=length,index --prompt='d:1> '"
+    set -l _base "--tiebreak=length,index --prompt='d:1> '"
     set -l _base "$_base --header='ctrl-j/k · alt-↓/↑ · alt-1…9 depth'"
 
     set -l _dir "$_base"
@@ -27,7 +27,7 @@ if status is-interactive
     set -l _dir "$_dir --bind='ctrl-j:transform(_fifc_depth_transform +1 d)'"
     set -l _dir "$_dir --bind='ctrl-k:transform(_fifc_depth_transform -1 d)'"
     for _n in 1 2 3 4 5 6 7 8 9
-        set -l _dir "$_dir --bind='alt-$_n:transform(_fifc_depth_transform $_n d)'"
+        set _dir "$_dir --bind='alt-$_n:transform(_fifc_depth_transform $_n d)'"
     end
 
     set -l _file "$_base"
@@ -36,7 +36,7 @@ if status is-interactive
     set -l _file "$_file --bind='ctrl-j:transform(_fifc_depth_transform +1)'"
     set -l _file "$_file --bind='ctrl-k:transform(_fifc_depth_transform -1)'"
     for _n in 1 2 3 4 5 6 7 8 9
-        set -l _file "$_file --bind='alt-$_n:transform(_fifc_depth_transform $_n)'"
+        set _file "$_file --bind='alt-$_n:transform(_fifc_depth_transform $_n)'"
     end
 
     # Set source rules
