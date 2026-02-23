@@ -20,11 +20,11 @@ if status is-interactive
     fifc \
         -n 'test "$fifc_group" = "directories"' \
         -s _fifc_source_directories \
-        -f '--tiebreak=length,index'
+        -f '--no-sort --tiebreak=length,index'
     fifc \
         -n 'test "$fifc_group" = "files"' \
         -s _fifc_source_files \
-        -f '--tiebreak=length,index'
+        -f '--no-sort --tiebreak=length,index'
     fifc \
         -n 'test "$fifc_group" = processes' \
         -s 'ps -ax -o pid=,command='
