@@ -19,10 +19,12 @@ if status is-interactive
     # Set sources rules
     fifc \
         -n 'test "$fifc_group" = "directories"' \
-        -s _fifc_source_directories
+        -s _fifc_source_directories \
+        -f '--scheme=path --tiebreak=length,index'
     fifc \
         -n 'test "$fifc_group" = "files"' \
-        -s _fifc_source_files
+        -s _fifc_source_files \
+        -f '--scheme=path --tiebreak=length,index'
     fifc \
         -n 'test "$fifc_group" = processes' \
         -s 'ps -ax -o pid=,command='
@@ -59,7 +61,6 @@ if set -q _fifc_launched_by_fzf
         -o _fifc_open_process \
         -e '^\\h*([0-9]+)'
 end
-
 
 # Fisher
 function _fifc_uninstall --on-event fifc_uninstall
