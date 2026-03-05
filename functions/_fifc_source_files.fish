@@ -2,7 +2,10 @@ function _fifc_source_files -d "Return a command to recursively find files"
     set -l path (_fifc_path_to_complete | string escape)
     set -l hidden (string match "*." "$path")
 
-    if string match --quiet -- '~*' "$fifc_query"
+    # Clear query when token is a directory path — the source command already
+    # scopes to this path, so the prefix would break --exact substring matching
+    # (e.g. typing "db" with query "../db" won't match "../connect-plus-db/").
+    if string match --quiet -- '~*' "$fifc_query"; or string match --quiet -- '*/' "$fifc_query"
         set -e fifc_query
     end
 
